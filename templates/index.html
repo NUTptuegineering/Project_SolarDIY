@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Rooftop Design</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        .reset-button, .delete-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .reset-button img, .delete-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ซ่อนระบบแบตเตอรี่เริ่มต้น */
+        #batterySystem {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: fit-content;
+            display: none; /* ซ่อนเริ่มต้น */
+        }
+
+        /* ยกหมวด "โหลดที่ใช้/วัน" ขึ้นเมื่อระบบแบตเตอรี่ซ่อน */
+        #deviceTable {
+            margin-top: 10px;
+        }
+
+        #batterySystem label {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>โปรแกรมออกแบบและประมาณราคา Solar Rooftop</h1>
+    
+    <!-- ฟอร์ม -->
+    <form id="rectangleForm">
+        <label for="width">ความกว้าง:</label>
+        <input type="text" id="width" name="width">
+        <span>เมตร</span>
+        <br>
+        <label for="height">ความยาว:</label>
+        <input type="text" id="height" name="height">
+        <span>เมตร</span>
+        <br>
+        <label for="province">จังหวัด:</label>
+        <input list="provinceList" id="province" name="province">
+        <datalist id="provinceList"></datalist>
+        <br>
+        <label>ประเภท:</label>
+        <input type="radio" id="offGrid" name="systemType" value="Off-Grid1">
+        <label for="offGrid">Off-Grid</label>
+        <input type="radio" id="onGrid" name="systemType" value="On-Grid2">
+        <label for="onGrid">On-Grid</label>
+        <input type="radio" id="hybrid" name="systemType" value="Hybrid3">
+        <label for="hybrid">Hybrid</label>
+        <br>
+
+        <!-- ตัวเลือกระบบแบตเตอรี่ -->
+        <div id="batterySystem">
+            <label>เลือกระบบแบตเตอรี่:</label>
+            <input type="radio" id="battery12V" name="batterySystem" value="12V">
+            <label for="battery12V">12V</label>
+            <input type="radio" id="battery24V" name="batterySystem" value="24V">
+            <label for="battery24V">24V</label>
+            <input type="radio" id="battery48V" name="batterySystem" value="48V">
+            <label for="battery48V">48V</label>
+            <input type="radio" id="battery60V" name="batterySystem" value="60V">
+            <label for="battery60V">60V</label>
+        </div>
+        <br>
+
+        <!-- ตารางโหลดที่ใช้/วัน -->
+        <label>โหลดที่ใช้/วัน:</label>
+        <br><br>
+        <table id="deviceTable">
+            <tr>
+                <th>ลำดับ</th>
+                <th>อุปกรณ์</th>
+                <th>กำลังไฟฟ้า (W)</th>
+                <th>จำนวน</th>
+                <th>ชั่วโมงใช้งาน (ชม./วัน)</th>
+                <th>วัตต์/วัน (Wh/วัน)</th>
+                <th>ลบ</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>
+                    <input list="deviceList1" name="device1" placeholder="ชื่ออุปกรณ์">
+                    <datalist id="deviceList1"></datalist>
+                    <button type="button" class="reset-button" onclick="resetRow(1)">
+                        <img src="/static/refresh-icon.jpg" alt="Reset">
+                    </button>
+                </td>
+                <td><input type="text" name="power1" placeholder="W"></td>
+                <td><input type="text" name="quantity1" placeholder="จำนวน"></td>
+                <td><input type="text" name="hours1" placeholder="ชม./วัน"></td>
+                <td><input type="text" name="watt1" placeholder="Wh/วัน" readonly></td>
+                <td>
+                    <button type="button" class="delete-button" onclick="deleteRow(this)">
+                        <img src="/static/delete-icon.png" alt="Delete">
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <button type="button" onclick="addDeviceRow()">เพิ่มรายการอุปกรณ์</button>
+        <br><br>
+        <button type="button" onclick="drawRectangle()">แสดงผล</button>
+    </form>
+    
+    <br><br>
+    <canvas id="rectangleCanvas" width="2400" height="1800" style="border:1px solid #000080;"></canvas>
+    <br>
+    <div id="output">
+        <div id="dimensions">ขนาด: -</div>
+        <div id="selectedProvince">จังหวัด: -</div>
+        <div id="selectedSystemType">ประเภท: -</div>
+    </div>
+    <div id="testDataOutput"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
