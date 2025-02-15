@@ -9,19 +9,25 @@
             border: 1px solid black;
             border-collapse: collapse;
             padding: 8px;
+            text-align: center;
         }
+
+        td:first-child {
+            vertical-align: middle;
+        }
+
         .reset-button, .delete-button {
             background-color: transparent;
             border: none;
             cursor: pointer;
             padding: 0;
         }
+
         .reset-button img, .delete-button img {
             width: 20px;
             height: 20px;
         }
 
-        /* ซ่อนระบบแบตเตอรี่เริ่มต้น */
         #batterySystem {
             margin-top: 10px;
             padding: 10px;
@@ -29,10 +35,13 @@
             border-radius: 5px;
             background-color: #f9f9f9;
             width: fit-content;
-            display: none; /* ซ่อนเริ่มต้น */
+            display: none;
         }
 
-        /* ยกหมวด "โหลดที่ใช้/วัน" ขึ้นเมื่อระบบแบตเตอรี่ซ่อน */
+        .hidden {
+            display: none !important;
+        }
+
         #deviceTable {
             margin-top: 10px;
         }
@@ -47,44 +56,56 @@
     
     <!-- ฟอร์ม -->
     <form id="rectangleForm">
-        <label for="width">ความกว้าง:</label>
-        <input type="text" id="width" name="width">
-        <span>เมตร</span>
-        <br>
-        <label for="height">ความยาว:</label>
-        <input type="text" id="height" name="height">
-        <span>เมตร</span>
-        <br>
-        <label for="province">จังหวัด:</label>
-        <input list="provinceList" id="province" name="province">
-        <datalist id="provinceList"></datalist>
-        <br>
-        <label>ประเภท:</label>
-        <input type="radio" id="offGrid" name="systemType" value="Off-Grid1">
-        <label for="offGrid">Off-Grid</label>
-        <input type="radio" id="onGrid" name="systemType" value="On-Grid2">
-        <label for="onGrid">On-Grid</label>
-        <input type="radio" id="hybrid" name="systemType" value="Hybrid3">
-        <label for="hybrid">Hybrid</label>
-        <br>
+        <label>ประเภทที่ตั้งการใช้ไฟ:</label>
+<input type="radio" id="residential" name="usageType" value="บ้านพักอาศัย">
+<label for="residential">บ้านพักอาศัย</label>
+<input type="radio" id="business" name="usageType" value="การทำธุรกิจ">
+<label for="business">การทำธุรกิจ</label>
+<br>
+<label>ช่วงเวลาใช้งาน:</label>
+<input type="radio" id="daytime" name="usagePeriod" value="กลางวัน">
+<label for="daytime">กลางวัน</label>
+<input type="radio" id="nighttime" name="usagePeriod" value="กลางคืน">
+<label for="nighttime">กลางคืน</label>
+<input type="radio" id="allDay" name="usagePeriod" value="ใช้ตลอดวัน">
+<label for="allDay">ใช้ตลอดวัน</label>
+<br>
+<label for="width">ความกว้าง:</label>
+<input type="text" id="width" name="width" placeholder="เมตร">
+<br>
+<label for="height">ความยาว:</label>
+<input type="text" id="height" name="height" placeholder="เมตร">
+<br>
+<label for="province">จังหวัด:</label>
+<input list="provinceList" id="province" name="province">
+<datalist id="provinceList"></datalist>
+<br>
+<label>ประเภท:</label>
+<input type="radio" id="offGrid" name="systemType" value="Off-Grid">
+<label for="offGrid">Off-Grid</label>
+<input type="radio" id="onGrid" name="systemType" value="On-Grid">
+<label for="onGrid">On-Grid</label>
+<input type="radio" id="hybrid" name="systemType" value="Hybrid">
+<label for="hybrid">Hybrid</label>
+<br>
 
         <!-- ตัวเลือกระบบแบตเตอรี่ -->
         <div id="batterySystem">
             <label>เลือกระบบแบตเตอรี่:</label>
-            <input type="radio" id="battery12V" name="batterySystem" value="12V">
+            <input type="radio" id="battery12V" name="batterySystem" value="12">
             <label for="battery12V">12V</label>
-            <input type="radio" id="battery24V" name="batterySystem" value="24V">
+            <input type="radio" id="battery24V" name="batterySystem" value="24">
             <label for="battery24V">24V</label>
-            <input type="radio" id="battery48V" name="batterySystem" value="48V">
+            <input type="radio" id="battery48V" name="batterySystem" value="48">
             <label for="battery48V">48V</label>
-            <input type="radio" id="battery60V" name="batterySystem" value="60V">
+            <input type="radio" id="battery60V" name="batterySystem" value="60">
             <label for="battery60V">60V</label>
         </div>
-        <br>
-
+        
         <!-- ตารางโหลดที่ใช้/วัน -->
-        <label>โหลดที่ใช้/วัน:</label>
-        <br><br>
+        <br>
+        <label>เลือกโหลดที่ใช้/วัน</label>
+        <br>
         <table id="deviceTable">
             <tr>
                 <th>ลำดับ</th>
@@ -100,7 +121,7 @@
                 <td>
                     <input list="deviceList1" name="device1" placeholder="ชื่ออุปกรณ์">
                     <datalist id="deviceList1"></datalist>
-                    <button type="button" class="reset-button" onclick="resetRow(1)">
+                    <button type="button" class="reset-button" onclick="resetRow(this)">
                         <img src="/static/refresh-icon.jpg" alt="Reset">
                     </button>
                 </td>
@@ -118,19 +139,37 @@
         <br>
         <button type="button" onclick="addDeviceRow()">เพิ่มรายการอุปกรณ์</button>
         <br><br>
+		<div id="totalEnergyContainer">
+			<strong id="totalEnergyDisplay">พลังงานรวมทั้งหมดต่อวัน: 0.00 Wh</strong>
+		</div>
+		<br>
+		<!-- เพิ่มพื้นที่แสดงค่ากำลังติดตั้งแผงโซลาร์เซลล์ -->
+		<div id="solarInstallationContainer">
+			<strong id="solarInstallationDisplay" style="color: red;"></strong>
+		</div>
+		<br>
+
+		<br>
         <button type="button" onclick="drawRectangle()">แสดงผล</button>
     </form>
     
-    <br><br>
-    <canvas id="rectangleCanvas" width="2400" height="1800" style="border:1px solid #000080;"></canvas>
+    <!-- พื้นที่แสดงผลข้อมูลแบตเตอรี่ -->
+    <div id="batteryDetails" style="display: none; margin-top: 20px;"></div>
     <br>
-    <div id="output">
-        <div id="dimensions">ขนาด: -</div>
-        <div id="selectedProvince">จังหวัด: -</div>
-        <div id="selectedSystemType">ประเภท: -</div>
-    </div>
-    <div id="testDataOutput"></div>
+    <div id="panelDetails" style="display: none; margin-top: 20px;"></div>
+    <br>
+    <div id="batteryDetails" style="display: none; margin-top: 20px;"></div>
+    <div id="panelSystem" style="display: none; margin-top: 20px;"></div>
+    <br>
+    <label id="priceSummary">ประมาณราคา = </label>
+    <br>
+    <button type="button" id="resetButton">ล้างข้อมูล</button>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- Script -->
+    <script src="/static/script.js" defer></script>
+
+
 </body>
 </html>
+
