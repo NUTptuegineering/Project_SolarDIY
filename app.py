@@ -18,7 +18,7 @@ def get_provinces():
 
 @app.route('/get_battery_list', methods=['GET'])
 def get_battery_list():
-    file_path = os.path.join(app.static_folder, 'List_of_equip.xlsx')
+    file_path = os.path.join(os.getcwd(), 'List_of_equip.xlsx'
     try:
         excel_data = pd.ExcelFile(file_path)
         sheet_name = "Battery_offgrid"
