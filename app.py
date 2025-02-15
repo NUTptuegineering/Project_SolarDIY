@@ -11,7 +11,7 @@ def index():
 
 @app.route('/get_provinces', methods=['GET'])
 def get_provinces():
-    file_path = os.path.join(app.static_folder, 'provinces.json')
+    file_path = os.path.join(os.getcwd(), 'provinces.json')
     with open(file_path, 'r', encoding='utf-8') as file:
         provinces = json.load(file)
     return jsonify(provinces)
