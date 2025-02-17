@@ -150,7 +150,9 @@ async function drawRectangle() {
 
     try {
         // โหลดข้อมูลแบตเตอรี่
-        const batteryResponse = await fetch('/get_battery_list');
+        const batteryResponse = await fetch('static/battery_list.json');
+
+        //const batteryResponse = await fetch('/get_battery_list');
         const batteryResult = await batteryResponse.json();
 
         if (batteryResult.status === 'success') {
