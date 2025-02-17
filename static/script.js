@@ -58,7 +58,7 @@ async function loadProvinces() {
 // ฟังก์ชันโหลดตัวเลือกแบตเตอรี่
 async function loadBatteryOptions() {
     try {
-        const response = await fetch('/get_battery_list');
+        const response = await fetch('static/battery_list.json');
         if (!response.ok) {
             throw new Error(`Failed to fetch battery list: ${response.status}`);
         }
