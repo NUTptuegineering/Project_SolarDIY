@@ -1,0 +1,38 @@
+[
+    {
+        "Brand": "LV TOPSUN",
+        "Voltage (V)": 48,
+        "Capacity (Ah)": 300,
+        "Price (THB)": 65000
+    },
+    {
+        "Brand": "LV TOPSUN",
+        "Voltage (V)": 48,
+        "Capacity (Ah)": 200,
+        "Price (THB)": 50000
+    },
+    {
+        "Brand": "LV TOPSUN",
+        "Voltage (V)": 48,
+        "Capacity (Ah)": 100,
+        "Price (THB)": 36000
+    },
+    {
+        "Brand": "LV TOPSUN",
+        "Voltage (V)": 24,
+        "Capacity (Ah)": 100,
+        "Price (THB)": 15000
+    },
+    {
+        "Brand": "Max sky Solar",
+        "Voltage (V)": 48,
+        "Capacity (Ah)": 184,
+        "Price (THB)": 58000
+    },
+    {
+        "Brand": "Max sky Solar",
+        "Voltage (V)": 48,
+        "Capacity (Ah)": 300,
+        "Price (THB)": 69000
+    }
+]
